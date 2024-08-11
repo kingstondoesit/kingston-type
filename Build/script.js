@@ -92,59 +92,60 @@ startButton.addEventListener('click', () => {
 
 // Event listener for user input in the textbox
 typedValueElement.addEventListener('input', () => {
-
-    // Get the current word and the value the user has typed
-    const currentWord = words[wordIndex];
+    // Get the value the user has typed so far
     const typedValue = typedValueElement.value;
 
-    if (typedValue === currentWord && wordIndex === words.length - 1) {
-        // End of sentence
-        // Calculate the elapsed time
-        const elapsedTime = (new Date().getTime() - startTime)/1000;
-        const message = `CONGRATULATIONS! You finished in <strong>${elapsedTime}</strong> seconds.`;
+    // Get the current word
+    const currentWord = words[wordIndex];
 
-        // Display the modal with the success message
-        document.getElementById('modalMessage').innerHTML = message;
-        $('#exampleModalCenter').modal('show');
+    // Split the typed value by spaces to get all words typed so far
+    const typedWords = typedValue.trim().split(' ');
 
-        // Save the high score and check if it made it into the top 10
-        const isTopScore = saveHighScore(elapsedTime);
+    // Check if the last typed word matches the current word in the quote
+    if (typedWords[wordIndex] === currentWord) {
+        if (wordIndex === words.length - 1) {
+            // End of sentence
+            // Calculate the elapsed time
+            const elapsedTime = (new Date().getTime() - startTime) / 1000;
+            const message = `CONGRATULATIONS! You finished in <strong>${elapsedTime}</strong> seconds.`;
 
-        // Display the high scores with the current score highlighted if it's in the top 10
-        const highScoreElement = document.getElementById('highScores');
+            // Display the modal with the success message
+            document.getElementById('modalMessage').innerHTML = message;
+            $('#exampleModalCenter').modal('show');
 
-        displayHighScores(highScoreElement, isTopScore ? elapsedTime : null);
+            // Save the high score and check if it made it into the top 10
+            const isTopScore = saveHighScore(elapsedTime);
 
-        // //Remove Event listener
-        // typedValueElement.removeEventListener('input', onInput)
+            // Display the high scores with the current score highlighted if it's in the top 10
+            const highScoreElement = document.getElementById('highScores');
+            displayHighScores(highScoreElement, isTopScore ? elapsedTime : null);
 
-        typedValueElement.disabled = true; //Disables input field on completion
+            // Disable the input field on completion
+            typedValueElement.disabled = true;
 
-        showPrompt_Button();
+            showPrompt_Button();
 
-    } else if (typedValue.endsWith(' ') && typedValue === currentWord + ' ') {
-        // End of the current word
-        // Clear the textbox for the next word
-        typedValueElement.value = '';
+        } else if (typedValue.endsWith(' ')){
+            // Move to the next word
+            wordIndex++;
 
-        // Move to the next word
-        wordIndex++;
+            // Append the completed words in the text box
+            const completedText = words.slice(0, wordIndex).join(' ') + ' ';
+            typedValueElement.value = completedText;
 
-        // Reset the class name for all words in the quote
-        for (const wordElement of quoteElement.children) {
-            wordElement.className = '';
+            // Highlight the next word in the quote
+            for (const wordElement of quoteElement.children) {
+                wordElement.className = '';
+            }
+            quoteElement.children[wordIndex].className = 'highlight';
         }
 
-        // Highlight the new word
-        quoteElement.children[wordIndex].className = 'highlight';
-
-    } else if (currentWord.startsWith(typedValue)) {
-        // Correct typing so far
-        // Clear any error styling
+    } else if (currentWord.startsWith(typedWords[wordIndex])) {
+        // Correct typing so far, clear any error styling
         typedValueElement.className = '';
+        
     } else {
-        // Error state
-        // Add error styling
+        // Error state, add error styling
         typedValueElement.className = 'error';
     }
 });

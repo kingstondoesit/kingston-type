@@ -53,3 +53,7 @@ ul {
     display: inline-block;
     margin-top: 1%;
 }
+
+.modal-body ul{
+    margin-right: 2rem;
+}
