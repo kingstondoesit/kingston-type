@@ -37,8 +37,16 @@ typedValueElement.disabled = true;
 // Disable autocomplete and add a placeholder
 typedValueElement.setAttribute('autocomplete', 'off');
 
+//Disable default behaviour for key Enter
+typedValueElement.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter') {
+        event.preventDefault(); // Prevent the page from refreshing
+    }
+});
+
 // Event listener for the start button
 startButton.addEventListener('click', () => {
+    
     // Select a random quote
     const quoteIndex = Math.floor(Math.random() * quotes.length);
     const quote = quotes[quoteIndex];
@@ -84,6 +92,7 @@ startButton.addEventListener('click', () => {
 
 // Event listener for user input in the textbox
 typedValueElement.addEventListener('input', () => {
+
     // Get the current word and the value the user has typed
     const currentWord = words[wordIndex];
     const typedValue = typedValueElement.value;
