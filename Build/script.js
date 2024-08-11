@@ -101,12 +101,10 @@ typedValueElement.addEventListener('input', () => {
         // End of sentence
         // Calculate the elapsed time
         const elapsedTime = (new Date().getTime() - startTime)/1000;
-        const message = `CONGRATULATIONS! You finished in ${
-            elapsedTime
-        } seconds.`;
+        const message = `CONGRATULATIONS! You finished in <strong>${elapsedTime}</strong> seconds.`;
 
         // Display the modal with the success message
-        document.getElementById('modalMessage').innerText = message;
+        document.getElementById('modalMessage').innerHTML = message;
         $('#exampleModalCenter').modal('show');
 
         // Save the high score and check if it made it into the top 10
