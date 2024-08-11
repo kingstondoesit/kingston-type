@@ -1,0 +1,56 @@
+html {
+    background-color: rgb(247, 244, 244);
+    width: 100vw;
+    font-size: 120%;
+}
+
+body {
+    text-align: center;
+}
+
+header {
+    padding-top: 1rem;
+}
+
+ul {
+    list-style: none;
+}
+
+.highlight {
+    background-color: yellow;
+}
+
+.error {
+    background-color: lightcoral;
+    border: red;
+}
+
+.main {
+    padding: auto;
+    margin-top: 15%;
+}
+
+.none {
+    display: none;
+}
+
+.quote {
+    font-size: larger;
+    font-weight: bold;
+}
+
+.form {
+    display: flex;
+    justify-content: center;
+}
+
+.form input {
+    width: 18rem;
+    height: 1.1rem;
+    font-size: 80%;
+}
+
+.form-btn {
+    display: inline-block;
+    margin-top: 1%;
+}
