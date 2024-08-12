@@ -44,6 +44,9 @@ typedValueElement.addEventListener('keydown', (event) => {
     }
 });
 
+// Timer element
+let isTimerStarted = false;
+
 // Event listener for the start button
 startButton.addEventListener('click', () => {
     
@@ -77,6 +80,9 @@ startButton.addEventListener('click', () => {
     // Clear any prior messages
     messageElement.innerText = '';
 
+    // Reset the timer flag
+    isTimerStarted = false;
+
     // Setup the textbox
     typedValueElement.value = '';
 
@@ -85,13 +91,15 @@ startButton.addEventListener('click', () => {
 
     // Focus on the textbox
     typedValueElement.focus();
-
-    // Start the timer
-    startTime = new Date().getTime();
 });
 
 // Event listener for user input in the textbox
 typedValueElement.addEventListener('input', () => {
+    // Start the timer only on the first input
+    if (!isTimerStarted) {
+        startTime = new Date().getTime();
+        isTimerStarted = true;
+    }
     // Get the value the user has typed so far
     const typedValue = typedValueElement.value;
 
