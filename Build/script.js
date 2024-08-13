@@ -1,18 +1,22 @@
 import { quotes } from './modules/quotes.js';
-import {saveHighScore, displayHighScores} from './modules/highscore.js';
+import { saveHighScore, displayHighScores } from './modules/highscore.js';
 
 // Initialize variables to store the list of words and track the player's position
 let words = [];
 let wordIndex = 0;
 let startTime = Date.now();
+let timerInterval;
 
 // Page elements
+const mainElement = document.querySelector('.main');
 const quoteElement = document.getElementById('quote');
 const messageElement = document.getElementById('message');
 const typedValueElement = document.getElementById('typed-value');
 const promptStart = document.getElementById('prompt_start');
 const promptAgain = document.getElementById('prompt_again');
 const startButton = document.getElementById('start');
+const timerElement = document.getElementById('timer');
+const welcome = document.getElementById('welcome');
 
 const hidePrompt_Button = () => {
     //Hide prompt message
@@ -22,6 +26,9 @@ const hidePrompt_Button = () => {
     //Hide Start Button
     startButton.style.display = 'none';
     startButton.classList.add('none');
+
+    //Hide Welcome Message
+    welcome.style.display = 'none';
 };
 
 const showPrompt_Button = () => {
@@ -31,7 +38,28 @@ const showPrompt_Button = () => {
     startButton.style.display = 'inline-block';
 };
 
-//Input field disabled by default
+const showTimer = () => {
+    //Show Timer element when start button is clicked
+    timerElement.classList.remove('none');
+    timerElement.style.display = 'inline-block';
+
+    //Reset Timer
+    timerElement.innerText = '0.0';
+};
+
+const startTimer = () => {
+    startTime = new Date().getTime();
+    timerInterval = setInterval(() => {
+        const elapsedTime = ((new Date().getTime() - startTime) / 1000).toFixed(1);
+        timerElement.innerText = `${elapsedTime}s`;
+    }, 1000); // Update timer every 1000ms/1s for smooth display
+};
+
+const stopTimer = () => {
+    clearInterval(timerInterval);
+};
+
+// Input field disabled by default
 typedValueElement.disabled = true;
 
 // Disable autocomplete and add a placeholder
@@ -49,7 +77,12 @@ let isTimerStarted = false;
 
 // Event listener for the start button
 startButton.addEventListener('click', () => {
-    
+    //Display Timer
+    showTimer();
+
+    // Push the .main element up
+    mainElement.classList.add('active');
+
     // Select a random quote
     const quoteIndex = Math.floor(Math.random() * quotes.length);
     const quote = quotes[quoteIndex];
@@ -63,7 +96,6 @@ startButton.addEventListener('click', () => {
     /* Update the UI
     Create an array of span elements for each word */
 
-    // const spanWords = words.map(function(word) { return `<span> ${word} </span>`; });
     const spanWords = words.map((word) => `<span> ${word} </span>`);
 
     hidePrompt_Button();
@@ -97,7 +129,7 @@ startButton.addEventListener('click', () => {
 typedValueElement.addEventListener('input', () => {
     // Start the timer only on the first input
     if (!isTimerStarted) {
-        startTime = new Date().getTime();
+        startTimer();
         isTimerStarted = true;
     }
     // Get the value the user has typed so far
@@ -113,6 +145,9 @@ typedValueElement.addEventListener('input', () => {
     if (typedWords[wordIndex] === currentWord) {
         if (wordIndex === words.length - 1) {
             // End of sentence
+            // Stop the timer
+            stopTimer();
+
             // Calculate the elapsed time
             const elapsedTime = (new Date().getTime() - startTime) / 1000;
             const message = `CONGRATULATIONS! You finished in <strong>${elapsedTime}</strong> seconds.`;
@@ -126,14 +161,19 @@ typedValueElement.addEventListener('input', () => {
 
             // Display the high scores with the current score highlighted if it's in the top 10
             const highScoreElement = document.getElementById('highScores');
-            displayHighScores(highScoreElement, isTopScore ? elapsedTime : null);
+            displayHighScores(
+                highScoreElement,
+                isTopScore ? elapsedTime : null
+            );
 
             // Disable the input field on completion
             typedValueElement.disabled = true;
 
             showPrompt_Button();
 
-        } else if (typedValue.endsWith(' ')){
+            // mainElement.classList.remove('active');
+
+        } else if (typedValue.endsWith(' ')) {
             // Move to the next word
             wordIndex++;
 
@@ -151,7 +191,7 @@ typedValueElement.addEventListener('input', () => {
     } else if (currentWord.startsWith(typedWords[wordIndex])) {
         // Correct typing so far, clear any error styling
         typedValueElement.className = '';
-        
+
     } else {
         // Error state, add error styling
         typedValueElement.className = 'error';

@@ -8,7 +8,7 @@ body {
 }
 
 header {
-    padding-top: 1.5rem;
+    padding-top: 2rem;
 }
 
 ul {
@@ -16,7 +16,7 @@ ul {
 }
 
 .highlight {
-    background-color: yellow;
+    background-color: rgb(245, 224, 41);;
 }
 
 .error {
@@ -27,6 +27,11 @@ ul {
 .main {
     padding: 1.5rem;
     margin-top: 14%;
+    transition: margin-top 0.4s ease;
+}
+
+.main.active {
+    margin-top: 8%;
 }
 
 .none {
@@ -45,15 +50,25 @@ ul {
 
 .form input {
     width: 18rem;
-    height: 1.4rem;
-    font-size: 80%;
+    height: 1.7rem;
+    font-size: 90%;
 }
 
 .form-btn {
     display: inline-block;
-    margin-top: 1%;
+    margin-top: 1.5%;
+    background-color:rgb(29, 45, 51); 
+    color: rgb(245, 224, 41);
+    border-color: rgb(228, 202, 170);
+    line-height: 1.2rem;
+    font-weight: 500;
 }
 
 .modal-body ul{
     margin-right: 2rem;
+}
+
+.timer {
+    font-size: 8rem;
+    margin-bottom: -5rem;
 }
