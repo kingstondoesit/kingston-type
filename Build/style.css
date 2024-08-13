@@ -3,7 +3,7 @@ html {
 }
 
 body {
-    background-color: rgb(253, 252, 252);
+    background-color: hsl(0, 20%, 99%);
     text-align: center;
 }
 
@@ -16,12 +16,12 @@ ul {
 }
 
 .highlight {
-    background-color: rgb(245, 224, 41);;
+    background-color: hsl(54, 91%, 56%);;
 }
 
 .error {
-    background-color: lightcoral;
-    border: red;
+    background-color: hsl(0, 79%, 72%);
+    border: hsl(0, 100%, 50%);
 }
 
 .main {
@@ -57,11 +57,15 @@ ul {
 .form-btn {
     display: inline-block;
     margin-top: 1.5%;
-    background-color:rgb(29, 45, 51); 
-    color: rgb(245, 224, 41);
-    border-color: rgb(228, 202, 170);
+    background-color:hsl(196, 28%, 16%); 
+    color: hsl(54, 91%, 56%);
+    border-color: hsl(33, 52%, 78%);
     line-height: 1.2rem;
     font-weight: 500;
+}
+
+.form-btn:hover{
+    color: hsl(54, 91%, 70%);
 }
 
 .modal-body ul{

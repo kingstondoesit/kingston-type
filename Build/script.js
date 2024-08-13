@@ -44,14 +44,14 @@ const showTimer = () => {
     timerElement.style.display = 'inline-block';
 
     //Reset Timer
-    timerElement.innerText = '0.0';
+    timerElement.innerText = '0';
 };
 
 const startTimer = () => {
     startTime = new Date().getTime();
     timerInterval = setInterval(() => {
-        const elapsedTime = ((new Date().getTime() - startTime) / 1000).toFixed(1);
-        timerElement.innerText = `${elapsedTime}s`;
+        const elapsedTime = ((new Date().getTime() - startTime) / 1000).toFixed(0);
+        timerElement.innerText = `${elapsedTime}`;
     }, 1000); // Update timer every 1000ms/1s for smooth display
 };
 
@@ -149,7 +149,7 @@ typedValueElement.addEventListener('input', () => {
             stopTimer();
 
             // Calculate the elapsed time
-            const elapsedTime = (new Date().getTime() - startTime) / 1000;
+            const elapsedTime = ((new Date().getTime() - startTime) / 1000).toFixed(2);
             const message = `CONGRATULATIONS! You finished in <strong>${elapsedTime}</strong> seconds.`;
 
             // Display the modal with the success message
