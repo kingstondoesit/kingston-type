@@ -96,11 +96,11 @@ resetBtn.addEventListener('click', () => {
         clearHighScores();
 
         // Provide feedback to the user by updating the high scores display
-        alert('High scores have been successfully reset.');
+        alert('High scores have been successfully reset.');  
 
-    } else {
+    // } else {
         // Optional: Provide feedback if the user cancels the action
-        alert('High scores reset canceled.');
+    //     alert('High score reset canceled.');
     }
 });
 
@@ -190,10 +190,7 @@ typedValueElement.addEventListener('input', () => {
 
             // Display the high scores with the current score highlighted if it's in the top 10
             const highScoreElement = document.getElementById('highScores');
-            displayHighScores(
-                highScoreElement,
-                isTopScore ? elapsedTime : null
-            );
+            displayHighScores(highScoreElement, isTopScore ? elapsedTime : null);
 
             // Disable the input field on completion
             typedValueElement.disabled = true;

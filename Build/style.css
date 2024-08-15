@@ -26,7 +26,7 @@ header h1 {
 }
 
 .reset-btn button {
-    background-color:hsl(196, 28%, 16%); ;
+    background-color: hsl(196, 28%, 16%);
     border-radius: 10px;
     scale: 63%;
     padding: 0px 8px;
@@ -61,7 +61,7 @@ header h1 {
     display: block;
 }
 
-.reset-div p{
+.reset-div p {
     font-size: 77%;
     font-weight: bold;
 }
@@ -71,7 +71,7 @@ ul {
 }
 
 .highlight {
-    background-color: hsl(54, 91%, 56%);;
+    background-color: hsl(54, 91%, 56%);
 }
 
 .error {
@@ -113,18 +113,18 @@ ul {
 .form-btn {
     display: inline-block;
     margin-top: 1.5%;
-    background-color:hsl(196, 28%, 16%); 
+    background-color: hsl(196, 28%, 16%);
     color: hsl(54, 91%, 56%);
     border-color: hsl(33, 52%, 78%);
     line-height: 1.4rem;
     font-weight: 500;
 }
 
-.form-btn:hover{
+.form-btn:hover {
     color: hsl(54, 91%, 70%);
 }
 
-.modal-body ul{
+.modal-body ul {
     margin-right: 2rem;
 }
 
