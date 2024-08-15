@@ -1,4 +1,4 @@
-import { quotes } from './modules/quotes.js';
+import { quotes } from './img/quotes.js';
 import { saveHighScore, displayHighScores, clearHighScores } from './modules/highscore.js';
 
 // Initialize variables to store the list of words and track the player's position
