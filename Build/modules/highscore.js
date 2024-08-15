@@ -1,3 +1,8 @@
+// Function to clear high scores from local storage
+export function clearHighScores() {
+    localStorage.removeItem('highScores');
+}
+
 // Function to save a new high score
 export function saveHighScore(score) {
     let highScores = getHighScores();
@@ -36,3 +41,4 @@ export function displayHighScores(element, currentScore = null) {
         })
         .join('');
 }
+

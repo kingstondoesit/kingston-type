@@ -19,6 +19,9 @@
 
 <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+<!-- Remix icons -->
+<link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet">
   
 <!-- Main css -->
   <link rel="stylesheet" href="style.css">
@@ -37,6 +40,14 @@
 
   <header>
     <h1 id="welcome">Welcome!</h1>
+    <nav class="reset-btn">
+      <div class="reset-div">
+        <p id="reset-msg">reset typing records</p>
+        <button id="reset">
+          <i class="ri-reset-left-fill"></i>
+        </button>
+      </div>
+    </nav>
     <h1><time id="timer" class="timer none" datetime=""></time></h1>
   </header>
 

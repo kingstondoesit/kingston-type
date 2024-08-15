@@ -1,5 +1,5 @@
 import { quotes } from './modules/quotes.js';
-import { saveHighScore, displayHighScores } from './modules/highscore.js';
+import { saveHighScore, displayHighScores, clearHighScores } from './modules/highscore.js';
 
 // Initialize variables to store the list of words and track the player's position
 let words = [];
@@ -17,6 +17,15 @@ const promptAgain = document.getElementById('prompt_again');
 const startButton = document.getElementById('start');
 const timerElement = document.getElementById('timer');
 const welcome = document.getElementById('welcome');
+const resetBtn = document.getElementById ('reset');
+
+// const resetActivity = () =>{
+//     resetMsg.classList.toggle('none');
+// };
+
+// // Add event listeners to show the message on hover
+// resetBtn.addEventListener('mouseenter', resetActivity);
+// resetBtn.addEventListener('mouseleave', resetActivity);
 
 const hidePrompt_Button = () => {
     //Hide prompt message
@@ -27,8 +36,9 @@ const hidePrompt_Button = () => {
     startButton.style.display = 'none';
     startButton.classList.add('none');
 
-    //Hide Welcome Message
+    //Hide Welcome Message and reset button
     welcome.style.display = 'none';
+    resetBtn.style.display = 'none';
 };
 
 const showPrompt_Button = () => {
@@ -36,6 +46,7 @@ const showPrompt_Button = () => {
     promptAgain.classList.remove('none');
     startButton.classList.remove('none');
     startButton.style.display = 'inline-block';
+    resetBtn.style.display = 'inline-block';
 };
 
 const showTimer = () => {
@@ -74,6 +85,24 @@ typedValueElement.addEventListener('keydown', (event) => {
 
 // Timer element
 let isTimerStarted = false;
+
+// Event listener for the reset button
+resetBtn.addEventListener('click', () => {
+    // Prompt the user to confirm the action
+    const userConfirmed = confirm('Are you sure you want to reset all high scores? This action cannot be undone.');
+
+    if (userConfirmed) {
+        // Clear high scores if the user confirms
+        clearHighScores();
+
+        // Provide feedback to the user by updating the high scores display
+        alert('High scores have been successfully reset.');
+
+    } else {
+        // Optional: Provide feedback if the user cancels the action
+        alert('High scores reset canceled.');
+    }
+});
 
 // Event listener for the start button
 startButton.addEventListener('click', () => {

@@ -8,7 +8,62 @@ body {
 }
 
 header {
-    padding-top: 2rem;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    padding: 2rem;
+}
+
+header h1 {
+    grid-column: 2; /* Center the h1 element */
+    text-align: center;
+}
+
+.reset-btn {
+    justify-self: end; /* Align the reset button to the far right */
+    position: fixed;
+    transition: opacity 0.05s ease-in;
+}
+
+.reset-btn button {
+    background-color:hsl(196, 28%, 16%); ;
+    border-radius: 10px;
+    scale: 63%;
+    padding: 0px 8px;
+    margin-top: 0px;
+}
+
+.reset-btn button i {
+    font-size: 2rem;
+    color: hsl(54, 91%, 56%);
+    font-style: normal; /* Ensure the text isn't italic */
+}
+
+.reset-div {
+    position: relative;
+    display: inline-block;
+    right: -2.3rem;
+}
+
+#reset-msg {
+    display: none;
+    position: absolute;
+    top: -20px;
+    right: 10px;
+    background-color: #f1f1f1;
+    padding: 5px;
+    border-radius: 3px;
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+.reset-div:hover #reset-msg {
+    display: block;
+}
+
+.reset-div p{
+    font-size: 77%;
+    font-weight: bold;
 }
 
 ul {
@@ -26,12 +81,12 @@ ul {
 
 .main {
     padding: 1.5rem;
-    margin-top: 14%;
+    margin-top: 10%;
     transition: margin-top 0.4s ease;
 }
 
 .main.active {
-    margin-top: 8%;
+    margin-top: 5%;
 }
 
 .none {
@@ -61,7 +116,7 @@ ul {
     background-color:hsl(196, 28%, 16%); 
     color: hsl(54, 91%, 56%);
     border-color: hsl(33, 52%, 78%);
-    line-height: 1.2rem;
+    line-height: 1.4rem;
     font-weight: 500;
 }
 
