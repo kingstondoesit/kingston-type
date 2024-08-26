@@ -1,151 +1,151 @@
 html {
-    font-size: 120%;
+  font-size: 120%;
 }
 
 body {
-    background-color: hsl(0, 20%, 99%);
-    text-align: center;
+  background-color: hsl(0, 20%, 99%);
+  text-align: center;
 }
 
 header {
-    display: grid;
-    grid-template-columns: 1fr auto 1fr;
-    align-items: center;
-    padding: 2rem;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  padding: 2rem;
 }
 
 header h1 {
-    grid-column: 2; /* Center the h1 element */
-    text-align: center;
+  grid-column: 2; /* Center the h1 element */
+  text-align: center;
 }
 
 .link {
-    background-color: #f1f1f1;
-    padding: 0 5px;
-    font-size: .95rem;
-    border-radius: 7px;
+  background-color: #f1f1f1;
+  padding: 0 5px;
+  font-size: 0.92rem;
+  border-radius: 7px;
 }
 
-a{
-    color: black;
+a {
+  color: black;
 }
 
-a:hover{
-    color: hsla(0, 0%, 0%, 0.8);
-    text-decoration: none;
+a:hover {
+  color: hsla(0, 0%, 0%, 0.8);
+  text-decoration: none;
 }
 
 .reset-btn {
-    justify-self: end; /*Align the reset button to the far right */
-    position: fixed;
-    align-self: self-start;
-    transition: opacity 0.05s ease-in;
+  justify-self: end; /*Align the reset button to the far right */
+  position: relative;
+  align-self: self-start;
+  transition: opacity 0.05s ease-in;
 }
 
 .reset-btn button {
-    background-color: hsl(196, 28%, 16%);
-    border-radius: 10px;
-    scale: 55%;
-    padding: 0px 8px;
-    margin-top: 0px;
+  background-color: hsl(196, 28%, 16%);
+  border-radius: 10px;
+  scale: 53%;
+  padding: 0px 8px;
 }
 
 .reset-btn button i {
-    font-size: 2rem;
-    color: hsl(54, 91%, 56%);
-    font-style: normal; /* Ensure the text isn't italic */
+  font-size: 2rem;
+  color: hsl(54, 91%, 56%);
+  font-style: normal; /* Ensure the text isn't italic */
 }
 
 .reset-div {
-    position: relative;
-    display: inline-block;
-    right: -2.3rem;
+  position: fixed;
+  display: inline-block;
+  justify-items: end;
+  right: 0rem;
 }
 
 #reset-msg {
-    display: none;
-    position: absolute;
-    top: 2.8rem;
-    right: 10px;
-    background-color: #f1f1f1;
-    padding: 3px;
-    border-radius: 3px;
-    font-size: 11px;
-    white-space: nowrap;
+  display: none;
+  position: absolute;
+  top: 2.8rem;
+  right: 10px;
+  background-color: #f1f1f1;
+  padding: 3px;
+  border-radius: 3px;
+  font-size: 11px;
+  white-space: nowrap;
 }
 
 .reset-div:hover #reset-msg {
-    display: block;
+  display: block;
 }
 
 .reset-div p {
-    font-size: 77%;
-    font-weight: bold;
+  font-size: 77%;
+  font-weight: bold;
 }
 
 ul {
-    list-style: none;
+  list-style: none;
 }
 
 .highlight {
-    background-color: hsl(54, 91%, 56%);
+  background-color: hsl(54, 91%, 56%);
 }
 
 .error {
-    background-color: hsl(0, 79%, 72%);
-    border: hsl(0, 100%, 50%);
+  background-color: hsl(0, 79%, 72%);
+  border: hsl(0, 100%, 50%);
 }
 
 .main {
-    padding: 1.5rem;
-    margin-top: 10%;
-    transition: margin-top 0.4s ease;
+  padding: 1.5rem;
+  margin-top: 10%;
+  transition: margin-top 0.4s ease;
 }
 
 .main.active {
-    margin-top: 5%;
+  margin-top: 5%;
 }
 
 .none {
-    display: none;
+  display: none;
 }
 
 .quote {
-    font-size: larger;
-    font-weight: bold;
+  font-size: larger;
+  font-weight: bold;
 }
 
 .form {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 }
 
 .form input {
-    width: 18rem;
-    height: 1.7rem;
-    font-size: 90%;
-    padding: 0px 6px;
+  width: 18rem;
+  height: 1.7rem;
+  font-size: 90%;
+  padding: 0px 6px;
 }
 
 .form-btn {
-    display: inline-block;
-    margin-top: 1.5%;
-    background-color: hsl(196, 28%, 16%);
-    color: hsl(54, 91%, 56%);
-    border-color: hsl(33, 52%, 78%);
-    line-height: 1.4rem;
-    font-weight: 500;
+  display: inline-block;
+  margin-top: 1.5%;
+  background-color: hsl(196, 28%, 16%);
+  color: hsl(54, 91%, 56%);
+  border-color: hsl(33, 52%, 78%);
+  line-height: 1.4rem;
+  font-weight: 500;
 }
 
 .form-btn:hover {
-    color: hsl(54, 91%, 70%);
+  color: hsl(54, 91%, 70%);
 }
 
 .modal-body ul {
-    margin-right: 2rem;
+  margin-right: 2rem;
 }
 
 .timer {
-    font-size: 8rem;
-    margin-bottom: -5rem;
+  font-size: 8rem;
+  margin-bottom: -5rem;
 }
