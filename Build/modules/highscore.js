@@ -3,21 +3,17 @@ export function saveHighScore(score) {
     let highScores = getHighScores();
     highScores.push(score);
     highScores.sort((a, b) => a - b); // Sort scores in ascending order
-
     if (highScores.length > 10) {
         highScores = highScores.slice(0, 10); // Keep only the top 10 scores
     }
-    
     localStorage.setItem('highScores', JSON.stringify(highScores));
     return highScores.includes(score); // Return true if the score is in the top 10
 }
-
 // Function to retrieve high scores from local storage
 export function getHighScores() {
     const highScores = localStorage.getItem('highScores');
     return highScores ? JSON.parse(highScores) : [];
 }
-
 // Function to display high scores
 export function displayHighScores(element, currentScore = null) {
     const highScores = getHighScores();
@@ -34,7 +30,6 @@ export function displayHighScores(element, currentScore = null) {
     })
         .join('');
 }
-
 // Function to clear high scores from local storage
 export function clearHighScores() {
     localStorage.removeItem('highScores');

@@ -19,6 +19,22 @@ header h1 {
     text-align: center;
 }
 
+.link {
+    background-color: #f1f1f1;
+    padding: 0 5px;
+    font-size: .9rem;
+    border-radius: 7px;
+}
+
+a{
+    color: black;
+}
+
+a:hover{
+    color: hsla(0, 0%, 0%, 0.8);
+    text-decoration: none;
+}
+
 .reset-btn {
     justify-self: end; /*Align the reset button to the far right */
     position: fixed;
