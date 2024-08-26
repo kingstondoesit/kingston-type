@@ -1,4 +1,4 @@
-import { fetchQuote } from './modules/quotes.js';
+import { fetchQuote, quotes } from './modules/quotes.js';
 import {
   saveHighScore,
   displayHighScores,
@@ -112,18 +112,27 @@ resetBtn.addEventListener('click', () => {
 
 // Event listener for the start button
 startButton.addEventListener('click', async () => {
-  // Select a random quote
-  // const quoteIndex = Math.floor(Math.random() * quotes.length);
-  // const quote = quotes[quoteIndex];
+   // Timeout logic: promise quote fetch within a stipulated time frame eg. 1350ms/1.35s
+   const fetchQuoteWithTimeout = async () => {
+    const timeout = new Promise((_, reject) =>
+      setTimeout(() => reject(new Error('Request timed out')), 1350)
+    );
 
-  //Fetch a random quote from API using fetchQuote func
-  const quoteData = await fetchQuote();
-  if (!quoteData) {
-    messageElement.innerText = 'Failed to load quote. Please try again';
-    return;
+    try {
+      const quoteData = await Promise.race([fetchQuote(), timeout]);
+      return quoteData ? quoteData.content : null;
+    } catch (error) {
+      return null; // Handle errors by returning null
+    }
+  };
+
+  let quote = await fetchQuoteWithTimeout();
+
+  if (!quote) {
+    // If the API call fails or times out, select a random quote from the base quotes array
+    const quoteIndex = Math.floor(Math.random() * quotes.length);
+    quote = quotes[quoteIndex];
   }
-
-  const quote = quoteData.content;
 
   // Split the quote into words
   words = quote.split(' ');
