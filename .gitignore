@@ -1,4 +1,5 @@
 node_modules
+.vscode
 # .*ts
 package-lock.json
 kingstonTypePerf.json
