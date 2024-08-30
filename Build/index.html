@@ -1,40 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kingston-type | A classic typing proficiency assessment tool</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="./favicon.jpg" />
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kingston-type | A classic typing proficiency assessment tool</title>
-  <link rel="icon" type="image/png" sizes="32x32" href="./favicon.jpg">
+    <!-- Google tag (gtag.js) -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-KPRWMRJLV8"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag('js', new Date());
 
-<!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-KPRWMRJLV8"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
+      gtag('config', 'G-KPRWMRJLV8');
+    </script>
 
-    gtag('config', 'G-KPRWMRJLV8');
-  </script>
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
 
-<!-- Bootstrap CSS -->
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Remix icons -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
 
-<!-- Remix icons -->
-<link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet">
-  
-<!-- Main css -->
-  <link rel="stylesheet" href="style.css">
-  </link>
+    <!-- Preconnect to the third-party host -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" />
 
-<!-- Bootstrap JS, Popper.js, and jQuery -->
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" defer></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" defer></script>
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="style.css" />
 
-<!-- Main js -->
-  <script type="module" src="script.js"></script>
-</head>
+    <!-- Bootstrap JS, Popper.js, and jQuery -->
+    <script
+      src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+      defer
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+      defer
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+      defer
+    ></script>
+
+    <!-- Main JS -->
+    <script type="module" src="script.js"></script>
+  </head>
 
   <body class="container">
     <header>
@@ -52,36 +73,76 @@
 
     <div class="main">
       <div>
-      <p id="prompt_start">Practice your typing skills with a quote from <a class="link" target="_blank" href="https://quotable.io/">quotable</a>. <br> Click the <strong>Start button</strong> to begin!</p> 
-      <p id="prompt_again" class="none">Click the <strong>Start button</strong> to play again!</p>
-      <p id="quote" class ="quote"></p> <!-- This will display a random quote-->
-      <p id="message"></p> <!-- This will display any status messages -->
+        <p id="prompt_start">
+          Practice your typing skills with a quote from
+          <a class="link" target="_blank" href="https://quotable.io/"
+            >quotable</a
+          >. <br />
+          Click the <strong>Start button</strong> to begin!
+        </p>
+        <p id="prompt_again" class="none">
+          Click the <strong>Start button</strong> to play again!
+        </p>
+        <p id="quote" class="quote"></p>
+        <!-- This will display a random quote-->
+        <p id="message"></p>
+        <!-- This will display any status messages -->
       </div>
       <div>
         <form action="" class="form">
-        <input type="text" aria-label="current word" id="typed-value" class="form-input"/> <!-- The textbox for typing -->
-      </form>
-        <button type="button" id="start" class="form-btn">Start</button> <!-- To start the game -->
+          <input
+            type="text"
+            aria-label="current word"
+            id="typed-value"
+            class="form-input"
+          />
+          <!-- The textbox for typing -->
+        </form>
+        <button type="button" id="start" class="form-btn">Start</button>
+        <!-- To start the game -->
       </div>
 
       <!-- Modal Dialogue box-->
-      <div id="exampleModalCenter" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" style="display: none;" aria-hidden="true">
+      <div
+        id="exampleModalCenter"
+        class="modal fade"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="exampleModalCenterTitle"
+        style="display: none"
+        aria-hidden="true"
+      >
         <div class="modal-dialog modal-dialog-centered" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalCenterTitle">Congratulations!</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <h5 class="modal-title" id="exampleModalCenterTitle">
+                Congratulations!
+              </h5>
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
                 <span aria-hidden="true">×</span>
               </button>
             </div>
             <div class="modal-body">
-              <p id="modalMessage"></p> <!-- This will display the success message -->
-              <ul> <strong> Top Scores: </strong>
+              <p id="modalMessage"></p>
+              <!-- This will display the success message -->
+              <ul>
+                <strong> Top Scores: </strong>
                 <span id="highScores"></span>
               </ul>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-dismiss="modal"
+              >
+                Close
+              </button>
             </div>
           </div>
         </div>
