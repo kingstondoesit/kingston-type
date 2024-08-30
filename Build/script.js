@@ -112,8 +112,8 @@ resetBtn.addEventListener('click', () => {
 
 // Event listener for the start button
 startButton.addEventListener('click', async () => {
-   // Timeout logic: promise quote fetch within a stipulated time frame eg. 1350ms/1.35s
-   const fetchQuoteWithTimeout = async () => {
+  // Timeout logic: promise quote fetch within a stipulated time frame eg. 1350ms/1.35s
+  const fetchQuoteWithTimeout = async () => {
     const timeout = new Promise((_, reject) =>
       setTimeout(() => reject(new Error('Request timed out')), 1350)
     );
