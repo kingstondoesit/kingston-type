@@ -5,6 +5,7 @@ html {
 body {
   background-color: hsl(0, 20%, 99%);
   text-align: center;
+  margin: 1.5em;
 }
 
 header {
