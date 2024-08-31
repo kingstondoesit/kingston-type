@@ -1,5 +1,7 @@
 node_modules
+JS_Series
 .vscode
 # .*ts
 package-lock.json
 kingstonTypePerf.json
+# Building-your-first-typing-game-with-JS.md
