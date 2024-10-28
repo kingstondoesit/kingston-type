@@ -21,8 +21,8 @@ export function displayHighScores(element, currentScore = null) {
         const isCurrentScore = score === currentScore;
         // Define styles for the current score
         const fontWeight = isCurrentScore ? 'bold' : 'normal';
-        const backgroundColor = isCurrentScore ? 'black' : 'transparent';
-        const color = isCurrentScore ? 'white' : 'inherit';
+        const backgroundColor = isCurrentScore ? '#336699' : 'transparent';
+        const color = isCurrentScore ? 'white' : 'normal';
         // Use the styles in the list item
         return `<li style="font-weight: ${fontWeight}; background-color: ${backgroundColor}; color: ${color};">
                 ${index + 1}. ${score} seconds

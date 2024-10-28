@@ -12,7 +12,7 @@ let startTime = Date.now();
 let timerInterval;
 
 // Page elements
-const mainElement = document.querySelector('.main');
+const quotesDiv = document.querySelector('.quotes');
 const quoteElement = document.getElementById('quote');
 const messageElement = document.getElementById('message');
 const typedValueElement = document.getElementById('typed-value');
@@ -22,6 +22,8 @@ const startButton = document.getElementById('start');
 const timerElement = document.getElementById('timer');
 const welcome = document.getElementById('welcome');
 const resetBtn = document.getElementById('reset');
+const resetDiv = document.getElementById('reset-div')
+const formShow = document.getElementsByClassName('form');
 
 // const resetActivity = () =>{
 //     resetMsg.classList.toggle('none');
@@ -32,25 +34,25 @@ const resetBtn = document.getElementById('reset');
 // resetBtn.addEventListener('mouseleave', resetActivity);
 
 const hidePrompt_Button = () => {
-  //Hide prompt message
   promptAgain.classList.add('none');
   promptStart.className = 'none';
-
-  //Hide Start Button
-  startButton.style.display = 'none';
-  startButton.classList.add('none');
-
-  //Hide Welcome Message and reset button
+  startButton.style.visibility = 'hidden';
   welcome.style.display = 'none';
-  resetBtn.style.display = 'none';
+  resetDiv.style.display = 'none'; // Ensure it's hidden when starting a new game
 };
 
 const showPrompt_Button = () => {
-  //Show start button and prompt message to play again
   promptAgain.classList.remove('none');
-  startButton.classList.remove('none');
-  startButton.style.display = 'inline-block';
-  resetBtn.style.display = 'inline-block';
+  startButton.style.visibility = 'visible';
+  resetDiv.style.display = 'inline-block'; // Show it only at the end of the game
+};
+
+const showForm = () => {
+  formShow[0].style.display = 'flex';
+};
+
+const hideForm = () => {
+  formShow[0].style.display = 'none';
 };
 
 const showTimer = () => {
@@ -64,10 +66,11 @@ const showTimer = () => {
 
 const startTimer = () => {
   startTime = new Date().getTime();
-  timerInterval = setInterval(() => {
-    const elapsedTime = ((new Date().getTime() - startTime) / 1000).toFixed(0);
-    timerElement.innerText = `${elapsedTime}`;
-  }, 1000); // Update timer every 1000ms/1s for smooth display
+  const interval = () => {
+      const elapsedTime = ((new Date().getTime() - startTime) / 1000).toFixed(0);
+      timerElement.innerText = `${elapsedTime}`;
+    }
+  timerInterval = setInterval(interval, 1000); // Update timer every 1000ms/1s for smooth display
 };
 
 const stopTimer = () => {
@@ -112,6 +115,7 @@ resetBtn.addEventListener('click', () => {
 
 // Event listener for the start button
 startButton.addEventListener('click', async () => {
+  
   // Timeout logic: promise quote fetch within a stipulated time frame eg. 1350ms/1.35s
   const fetchQuoteWithTimeout = async () => {
     const timeout = new Promise((_, reject) =>
@@ -134,6 +138,9 @@ startButton.addEventListener('click', async () => {
     quote = quotes[quoteIndex];
   }
 
+  // Hide resetDiv before starting the game
+  resetDiv.style.display = 'none';
+
   // Split the quote into words
   words = quote.split(' ');
 
@@ -145,13 +152,15 @@ startButton.addEventListener('click', async () => {
 
   const spanWords = words.map((word) => `<span> ${word} </span>`);
 
-  // Push the .main element up
-  mainElement.classList.add('active');
-
   //Display Timer
   showTimer();
 
   hidePrompt_Button();
+
+  showForm();
+
+  // Push the .main element up
+  quotesDiv.classList.add('active');
 
   // Convert the array into a string and set as innerHTML on quoteElement
   quoteElement.innerHTML = spanWords.join('');
@@ -205,11 +214,7 @@ typedValueElement.addEventListener('input', () => {
       const elapsedTime = ((new Date().getTime() - startTime) / 1000).toFixed(
         2
       );
-      const message = `CONGRATULATIONS! You finished in <strong>${elapsedTime}</strong> seconds.`;
-
-      // Display the modal with the success message
-      document.getElementById('modalMessage').innerHTML = message;
-      $('#exampleModalCenter').modal('show');
+      const message = ` 🎉CONGRATULATIONS! You finished in <span style="color: #3366aa;"><strong>${elapsedTime}</strong></span> seconds.`; 
 
       // Save the high score and check if it made it into the top 10
       const isTopScore = saveHighScore(elapsedTime);
@@ -218,12 +223,17 @@ typedValueElement.addEventListener('input', () => {
       const highScoreElement = document.getElementById('highScores');
       displayHighScores(highScoreElement, isTopScore ? elapsedTime : null);
 
+      // Display the modal with the success message
+      document.getElementById('modal-title').innerHTML = message;
+      $('#exampleModalCenter').modal('show');
+      
       // Disable the input field on completion
       typedValueElement.disabled = true;
-
       showPrompt_Button();
+      hideForm();
+      quotesDiv.classList.remove('active');
+      resetDiv.classList.remove('none')
 
-      // mainElement.classList.remove('active');
     } else if (typedValue.endsWith(' ')) {
       // Move to the next word
       wordIndex++;

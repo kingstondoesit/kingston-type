@@ -25,12 +25,12 @@ export function getHighScores() {
 export function displayHighScores(element: HTMLElement, currentScore : Highscore|null = null) {
     const highScores = getHighScores();
     element.innerHTML = highScores.map((score: number, index: number) => {
-            const isCurrentScore = score === currentScore;
+            const isCurrentScore: boolean = score === currentScore;
 
             // Define styles for the current score
             const fontWeight = isCurrentScore ? 'bold' : 'normal';
-            const backgroundColor = isCurrentScore ? 'black' : 'transparent';
-            const color = isCurrentScore ? 'white' : 'inherit';
+            const backgroundColor = isCurrentScore ? '#336699' : 'transparent';
+            const color = isCurrentScore ? 'white' : 'normal';
 
             // Use the styles in the list item
             return `<li style="font-weight: ${fontWeight}; background-color: ${backgroundColor}; color: ${color};">

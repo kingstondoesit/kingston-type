@@ -59,51 +59,49 @@
 
   <body class="container">
     <header>
-      <h1 id="welcome">Welcome!</h1>
       <nav class="reset-btn">
-        <div class="reset-div">
+        <div class="reset-div" id="reset-div">
           <p id="reset-msg">reset typing records</p>
           <button id="reset">
             <i class="ri-reset-left-fill"></i>
           </button>
         </div>
       </nav>
+      <h1 id="welcome">Welcome to typing game!</h1>
       <h1><time id="timer" class="timer none" datetime=""></time></h1>
-    </header>
+    </header><br>
 
-    <div class="main">
+    <div class="quotes">
       <div>
         <p id="prompt_start">
           Practice your typing skills with a quote from
-          <a class="link" target="_blank" href="https://quotable.io/"
-            >quotable</a
-          >. <br />
+          <a class="link" target="_blank" href="https://github.com/lukePeavey/quotable"
+            >quotable.io</a
+          >. <br/><br/>
           Click the <strong>Start button</strong> to begin!
         </p>
         <p id="prompt_again" class="none">
           Click the <strong>Start button</strong> to play again!
         </p>
         <p id="quote" class="quote"></p>
-        <!-- This will display a random quote-->
-        <p id="message"></p>
-        <!-- This will display any status messages -->
       </div>
-      <div>
-        <form action="" class="form">
-          <input
-            type="text"
-            aria-label="current word"
-            id="typed-value"
-            class="form-input"
-          />
-          <!-- The textbox for typing -->
-        </form>
-        <button type="button" id="start" class="form-btn">Start</button>
-        <!-- To start the game -->
-      </div>
+      <!-- This will display a random quote-->
+      <p id="message"></p>
+      <!-- This will display any status messages -->
+    </div>
+    <div class="input">
+      <form action="" class="form">
+        <input
+          type="text"
+          aria-label="current word"
+          id="typed-value"
+          class="form-input"
+        />
+      </form>
+      <button type="button" id="start" class="form-btn">Start</button>
 
-      <!-- Modal Dialogue box-->
-      <div
+    <!-- Modal Dialogue box-->
+    <div
         id="exampleModalCenter"
         class="modal fade"
         tabindex="-1"
@@ -115,8 +113,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalCenterTitle">
-                Congratulations!
+              <h5 class="modal-title" id="modal-title">
               </h5>
               <button
                 type="button"
