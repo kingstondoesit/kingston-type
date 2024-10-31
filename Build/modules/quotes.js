@@ -7,8 +7,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-const minLength = 100;
-const maxLength = 120;
+const minLength = 80;
+const maxLength = 90;
 // Fetch a random quote within the specified length range
 export const fetchQuote = () => __awaiter(void 0, void 0, void 0, function* () {
     try {

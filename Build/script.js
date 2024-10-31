@@ -22,29 +22,23 @@ const startButton = document.getElementById('start');
 const timerElement = document.getElementById('timer');
 const welcome = document.getElementById('welcome');
 const resetBtn = document.getElementById('reset');
-const resetDiv = document.getElementById('reset-div')
+const resetDiv = document.getElementById('reset-div');
 const formShow = document.getElementsByClassName('form');
 
-// const resetActivity = () =>{
-//     resetMsg.classList.toggle('none');
-// };
-
-// // Add event listeners to show the message on hover
-// resetBtn.addEventListener('mouseenter', resetActivity);
-// resetBtn.addEventListener('mouseleave', resetActivity);
-
+// Hide page elements
 const hidePrompt_Button = () => {
   promptAgain.classList.add('none');
   promptStart.className = 'none';
   startButton.style.visibility = 'hidden';
   welcome.style.display = 'none';
-  resetDiv.style.display = 'none'; // Ensure it's hidden when starting a new game
+  resetDiv.style.display = 'none';
 };
 
+// Show page elements
 const showPrompt_Button = () => {
   promptAgain.classList.remove('none');
   startButton.style.visibility = 'visible';
-  resetDiv.style.display = 'inline-block'; // Show it only at the end of the game
+  resetDiv.style.display = 'inline-block';
 };
 
 const showForm = () => {
@@ -67,9 +61,9 @@ const showTimer = () => {
 const startTimer = () => {
   startTime = new Date().getTime();
   const interval = () => {
-      const elapsedTime = ((new Date().getTime() - startTime) / 1000).toFixed(0);
-      timerElement.innerText = `${elapsedTime}`;
-    }
+    const elapsedTime = ((new Date().getTime() - startTime) / 1000).toFixed(0);
+    timerElement.innerText = `${elapsedTime}`;
+  };
   timerInterval = setInterval(interval, 1000); // Update timer every 1000ms/1s for smooth display
 };
 
@@ -115,7 +109,6 @@ resetBtn.addEventListener('click', () => {
 
 // Event listener for the start button
 startButton.addEventListener('click', async () => {
-  
   // Timeout logic: promise quote fetch within a stipulated time frame eg. 1350ms/1.35s
   const fetchQuoteWithTimeout = async () => {
     const timeout = new Promise((_, reject) =>
@@ -124,9 +117,14 @@ startButton.addEventListener('click', async () => {
 
     try {
       const quoteData = await Promise.race([fetchQuote(), timeout]);
-      return quoteData ? quoteData.content : null;
+      if (quoteData) {
+        console.log('Quote fetched successfully');
+        return quoteData.content;
+      } else {
+        return null;
+      }
     } catch (error) {
-      return null; // Handle errors by returning null
+      return null; // Handle errors by returning null, if the API call fails or times out
     }
   };
 
@@ -149,7 +147,6 @@ startButton.addEventListener('click', async () => {
 
   /* Update the UI
     Create an array of span elements for each word */
-
   const spanWords = words.map((word) => `<span> ${word} </span>`);
 
   //Display Timer
@@ -187,6 +184,9 @@ startButton.addEventListener('click', async () => {
   typedValueElement.focus();
 });
 
+// Initialize an error flag
+let errorFlag = false;
+
 // Event listener for user input in the textbox
 typedValueElement.addEventListener('input', () => {
   // Start the timer only on the first input
@@ -194,65 +194,73 @@ typedValueElement.addEventListener('input', () => {
     startTimer();
     isTimerStarted = true;
   }
+
   // Get the value the user has typed so far
   const typedValue = typedValueElement.value;
-
   // Get the current word
   const currentWord = words[wordIndex];
-
   // Split the typed value by spaces to get all words typed so far
   const typedWords = typedValue.trim().split(' ');
 
-  // Check if the last typed word matches the current word in the quote
-  if (typedWords[wordIndex] === currentWord) {
-    if (wordIndex === words.length - 1) {
-      // End of sentence
-      // Stop the timer
-      stopTimer();
+  // Track current progress within the current word
+  const currentTypedWord = typedWords[typedWords.length - 1] || '';
 
-      // Calculate the elapsed time
-      const elapsedTime = ((new Date().getTime() - startTime) / 1000).toFixed(
-        2
-      );
-      const message = ` 🎉CONGRATULATIONS! You finished in <span style="color: #3366aa;"><strong>${elapsedTime}</strong></span> seconds.`; 
-
-      // Save the high score and check if it made it into the top 10
-      const isTopScore = saveHighScore(elapsedTime);
-
-      // Display the high scores with the current score highlighted if it's in the top 10
-      const highScoreElement = document.getElementById('highScores');
-      displayHighScores(highScoreElement, isTopScore ? elapsedTime : null);
-
-      // Display the modal with the success message
-      document.getElementById('modal-title').innerHTML = message;
-      $('#exampleModalCenter').modal('show');
-      
-      // Disable the input field on completion
-      typedValueElement.disabled = true;
-      showPrompt_Button();
-      hideForm();
-      quotesDiv.classList.remove('active');
-      resetDiv.classList.remove('none')
-
-    } else if (typedValue.endsWith(' ')) {
-      // Move to the next word
-      wordIndex++;
-
-      // Append the completed words in the text box
-      const completedText = words.slice(0, wordIndex).join(' ') + ' ';
-      typedValueElement.value = completedText;
-
-      // Highlight the next word in the quote
-      for (const wordElement of quoteElement.children) {
-        wordElement.className = '';
-      }
-      quoteElement.children[wordIndex].className = 'highlight';
-    }
-  } else if (currentWord.startsWith(typedWords[wordIndex])) {
-    // Correct typing so far, clear any error styling
-    typedValueElement.className = '';
-  } else {
-    // Error state, add error styling
+  // If the user presses space without completing the word, retain error
+  if (typedValue.endsWith(' ') && currentTypedWord !== currentWord) {
     typedValueElement.className = 'error';
+    errorFlag = true;
+  }
+  // Retain error if diverged from currentWord sequence
+  else if (typedValue.length < currentTypedWord.length) {
+    typedValueElement.className = 'error';
+    errorFlag = true;
+  }
+  // Check if the typed characters match the beginning of currentWord
+  else if (currentWord.startsWith(currentTypedWord)) {
+    // Clear error immediately if typing sequence matches currentWord up to this point
+    typedValueElement.className = '';
+    errorFlag = false;
+
+    // If the word is fully typed correctly, prepare to move to next word
+    if (currentTypedWord === currentWord) {
+      if (wordIndex === words.length - 1) {
+        // End of sentence logic, stop the timer and display the success message if words are completed
+        stopTimer();
+        const elapsedTime = ((new Date().getTime() - startTime) / 1000).toFixed(2);
+        const message = ` 🎉CONGRATULATIONS! You finished in <span style="color: #3366aa;"><strong>${elapsedTime}</strong></span> seconds.`;
+
+        // Save the high score and check if it made it into the top 10
+        const isTopScore = saveHighScore(elapsedTime);
+        const highScoreElement = document.getElementById('highScores');
+        displayHighScores(highScoreElement, isTopScore ? elapsedTime : null);
+        document.getElementById('modal-title').innerHTML = message;
+        $('#exampleModalCenter').modal('show');
+
+        // Disable the input field on completion
+        typedValueElement.disabled = true;
+        showPrompt_Button();
+        hideForm();
+        quotesDiv.classList.remove('active');
+      
+      } else if (typedValue.endsWith(' ') && currentTypedWord === currentWord) {
+        // Move to the next word
+        wordIndex++;
+
+        // Append the completed words in the text box
+        const completedText = words.slice(0, wordIndex).join(' ') + ' ';
+        typedValueElement.value = completedText;
+
+        // Highlight the next word in the quote
+        for (const wordElement of quoteElement.children) {
+          wordElement.className = '';
+        }
+        quoteElement.children[wordIndex].className = 'highlight';
+      }
+    }
+  }
+  // Retain word typed incorrectly
+  else {
+    typedValueElement.className = 'error';
+    errorFlag = true;
   }
 });
