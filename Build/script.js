@@ -100,10 +100,6 @@ resetBtn.addEventListener('click', () => {
 
     // Provide feedback to the user by updating the high scores display
     alert('High scores have been successfully reset.');
-
-    // } else {
-    // Optional: Provide feedback if the user cancels the action
-    //     alert('High score reset canceled.');
   }
 });
 
@@ -187,80 +183,105 @@ startButton.addEventListener('click', async () => {
 // Initialize an error flag
 let errorFlag = false;
 
-// Event listener for user input in the textbox
 typedValueElement.addEventListener('input', () => {
-  // Start the timer only on the first input
+  // Start the timer on the player's first input
   if (!isTimerStarted) {
     startTimer();
     isTimerStarted = true;
   }
 
-  // Get the value the user has typed so far
-  const typedValue = typedValueElement.value;
-  // Get the current word
-  const currentWord = words[wordIndex];
-  // Split the typed value by spaces to get all words typed so far
-  const typedWords = typedValue.trim().split(' ');
+  // Get the current input values and word states
+  const typedValue = typedValueElement.value; // User's typed input
+  const currentWord = words[wordIndex]; // Current word to match
+  const typedWords = typedValue.trim().split(' '); // Words typed so far
+  const currentTypedWord = typedWords[typedWords.length - 1] || ''; // Last word being typed
 
-  // Track current progress within the current word
-  const currentTypedWord = typedWords[typedWords.length - 1] || '';
-
-  // If the user presses space without completing the word, retain error
-  if (typedValue.endsWith(' ') && currentTypedWord !== currentWord) {
-    typedValueElement.className = 'error';
-    errorFlag = true;
-  }
-  // Retain error if diverged from currentWord sequence
-  else if (typedValue.length < currentTypedWord.length) {
-    typedValueElement.className = 'error';
-    errorFlag = true;
-  }
-  // Check if the typed characters match the beginning of currentWord
-  else if (currentWord.startsWith(currentTypedWord)) {
-    // Clear error immediately if typing sequence matches currentWord up to this point
-    typedValueElement.className = '';
+  // Validate the current word and update error state accordingly
+  if (validateTypedWord(typedValue, currentWord, currentTypedWord)) {
+    typedValueElement.className = ''; // Clear error styling if correct
     errorFlag = false;
 
-    // If the word is fully typed correctly, prepare to move to next word
+    // If typed word fully matches the current word
     if (currentTypedWord === currentWord) {
+      // Check if this is the last word in the quote
       if (wordIndex === words.length - 1) {
-        // End of sentence logic, stop the timer and display the success message if words are completed
-        stopTimer();
-        const elapsedTime = ((new Date().getTime() - startTime) / 1000).toFixed(2);
-        const message = ` 🎉CONGRATULATIONS! You finished in <span style="color: #3366aa;"><strong>${elapsedTime}</strong></span> seconds.`;
-
-        // Save the high score and check if it made it into the top 10
-        const isTopScore = saveHighScore(elapsedTime);
-        const highScoreElement = document.getElementById('highScores');
-        displayHighScores(highScoreElement, isTopScore ? elapsedTime : null);
-        document.getElementById('modal-title').innerHTML = message;
-        $('#exampleModalCenter').modal('show');
-
-        // Disable the input field on completion
-        typedValueElement.disabled = true;
-        showPrompt_Button();
-        hideForm();
-        quotesDiv.classList.remove('active');
-      
-      } else if (typedValue.endsWith(' ') && currentTypedWord === currentWord) {
-        // Move to the next word
-        wordIndex++;
-
-        // Append the completed words in the text box
-        const completedText = words.slice(0, wordIndex).join(' ') + ' ';
-        typedValueElement.value = completedText;
-
-        // Highlight the next word in the quote
-        for (const wordElement of quoteElement.children) {
-          wordElement.className = '';
-        }
-        quoteElement.children[wordIndex].className = 'highlight';
+        endGame(); // End game if it's the last word
+      } else if (typedValue.endsWith(' ')) {
+        // If spacebar is pressed after typing the word, move to the next word
+        advanceToNextWord();
       }
     }
-  }
-  // Retain word typed incorrectly
-  else {
+  } else {
+    // Set error styling and flag if there's an input mismatch
     typedValueElement.className = 'error';
     errorFlag = true;
   }
 });
+
+/**
+ * Validates the current word input to ensure it matches the intended word.
+ * @param {string} typedValue - The full input typed by the player so far.
+ * @param {string} currentWord - The word the player should be typing.
+ * @param {string} currentTypedWord - The player's currently typed word.
+ * @returns {boolean} - Returns true if typed input is valid, false if there’s an error.
+ */
+function validateTypedWord(typedValue, currentWord, currentTypedWord) {
+  // Check if the player pressed space prematurely, flag as error if true
+  if (typedValue.endsWith(' ') && currentTypedWord !== currentWord) {
+    return false;
+  }
+
+  // Check if the current typed word is longer than the correct word, flag as error if true
+  if (typedValue.length < currentTypedWord.length) {
+    return false;
+  }
+
+  // Otherwise, check if the current word starts with the player's input
+  return currentWord.startsWith(currentTypedWord);
+}
+
+/**
+ * Highlights the current word the player is on in the displayed quote.
+ */
+function highlightCurrentWord() {
+  // Clear all previous highlights
+  for (const wordElement of quoteElement.children) {
+    wordElement.className = '';
+  }
+
+  // Highlight the current word
+  quoteElement.children[wordIndex].className = 'highlight';
+}
+
+/**
+ * Ends the game, stops the timer, and displays results with high scores.
+ */
+function endGame() {
+  stopTimer();
+  const elapsedTime = ((new Date().getTime() - startTime) / 1000).toFixed(2);
+  const message = ` 🎉CONGRATULATIONS! You finished in <span style="color: #3366aa;"><strong>${elapsedTime}</strong></span> seconds.`;
+
+  // Save the high score and check if it made it into the top 10
+  const isTopScore = saveHighScore(elapsedTime);
+  const highScoreElement = document.getElementById('highScores');
+  displayHighScores(highScoreElement, isTopScore ? elapsedTime : null);
+  document.getElementById('modal-title').innerHTML = message;
+  $('#exampleModalCenter').modal('show');
+
+  // Disable the input field on completion
+  typedValueElement.disabled = true;
+  showPrompt_Button();
+  hideForm();
+  quotesDiv.classList.remove('active');
+}
+/**
+ * Advances to the next word in the quote once the current word is completed.
+ */
+function advanceToNextWord() {
+  wordIndex++; // Increment word index
+  const completedText = words.slice(0, wordIndex).join(' ') + ' ';
+  typedValueElement.value = completedText;
+
+  // Highlight the next word
+  highlightCurrentWord();
+}
